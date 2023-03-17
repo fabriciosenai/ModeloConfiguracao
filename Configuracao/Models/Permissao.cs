@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class Permissao
+    public class Permissao
     {
-      public int id { get; set; }
-        public string name { get; set; }
+      public int Id { get; set; }
+        public string Descricao { get; set; }
 
-
+        public List<GrupoUsuario> grupoUsuarios { get; set; }
     }
 }

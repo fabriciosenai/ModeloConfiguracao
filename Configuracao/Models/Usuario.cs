@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class Usuario
+    public class Usuario
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Nome { get; set; }
 
         public string NomeUsuario { get; set; }
 
@@ -22,8 +22,8 @@ namespace Models
 
         public bool Ativo { get; set; }
 
-        public List<GrupoUsuario> Grupos { get; set; }
+        public List<GrupoUsuario> GrupoUsuarios { get; set; }
 
-        public 
+       
     }
 }
