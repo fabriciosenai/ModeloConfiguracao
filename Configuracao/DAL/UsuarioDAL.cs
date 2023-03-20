@@ -48,7 +48,7 @@ namespace DAL
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandText = "update Usuario set Nome = @nome,NomeUsuario = @NomeUsario,Email = @Email,Cpf =@Cpf,Senha = @Senha,Ativo = @Ativa WHERE id = @ID";
+                cmd.CommandText = "update Usuario set Nome = @nome,NomeUsuario = @NomeUsuario,Email = @Email,Cpf =@Cpf,Senha = @Senha,Ativo = @Ativo WHERE id = @ID";
                 cmd.CommandType = System.Data.CommandType.Text;
 
                 cmd.Parameters.AddWithValue("@Id", _usuario.Id);
@@ -66,7 +66,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("ocorreu um erro na tentativa de inserir um usuário. por favor verifique sua conexão", ex);
+                throw new Exception("ocorreu um erro na tentativa de alterar um usuário. por favor verifique sua conexão", ex);
             }
             finally
             {
@@ -80,7 +80,7 @@ namespace DAL
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandText = "DELETE FROM Usuario WHERE ID = @Id";
+                cmd.CommandText = "DELETE FROM Usuario WHERE Id = @Id";
                 cmd.CommandType = System.Data.CommandType.Text;
 
                 cmd.Parameters.AddWithValue("@Id", _id);
@@ -286,10 +286,10 @@ namespace DAL
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "SELECT Id,Nome,NomeUsuario,Email,CPF,Ativo";
+                cmd.CommandText = "SELECT Id,Nome,NomeUsuario,Email,CPF,Ativo, Senha FROM Usuario WHERE Id = @Id";
                 cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.Parameters.AddWithValue("Id", _id);
+                cmd.Parameters.AddWithValue("@Id", _id);
 
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
