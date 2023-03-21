@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +17,48 @@ namespace Configuracao
         public FormBuscarGrupoUsuario()
         {
             InitializeComponent();
+        }
+
+        private void Adicionar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonBuscar_Click(object sender, EventArgs e)
+        {
+            grupoUsuarioBindingSource.DataSource = new UsuarioBLL().BuscarTodos();
+        }
+
+        private void buttonExcluir_Click(object sender, EventArgs e)
+        {
+            if (grupoUsuarioBindingSource.Count <= 0)
+            {
+                MessageBox.Show("Não existe registro para ser excluído!");
+                return;
+            }
+            if (MessageBox.Show("Deseja realmente excluir este registro?",
+                "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).IdGrupo;
+            new UsuarioBLL().Excluir(id);
+            grupoUsuarioBindingSource.RemoveCurrent();
+
+            MessageBox.Show("Registro excluido com sucesso!");
+
+        }
+
+        private void buttonAdicionar_Click(object sender, EventArgs e)
+        {
+            using (FormBuscarGrupoUsuario frm = new FormBuscarGrupoUsuario())
+            {
+                frm.ShowDialog();
+            }
+            buttonBuscar_Click(null, null);
+        }
+
+        private void buttonAlterar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

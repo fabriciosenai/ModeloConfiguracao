@@ -321,8 +321,42 @@ namespace DAL
                 cn.Close();
             }
         }
+
+        public bool ValidarPermissao(int _idUsuario, int _idPermissao)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"SELECT 1 FROM PermissaoGrupoUsuario
+                 INNER JOIN UsuarioGrupoUsuario ON PermissaGrupoUsuario.IdGrupoUsuario = UsuarioGrupoUsuario.IdGrupoUsuario
+                 WHERE UsuarioGrupoUsuario.IdUsuario = @IdUsuario AND PermissaGrupoUsuario.IdPermissao = @IdPermissao";
+
+                
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@IdUsuario", _idUsuario);
+                cmd.Parameters.AddWithValue("@Idpermissao", _idPermissao);
+
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    if (rd.Read())
+                        return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro na tentetiva jde buscar dos dados. Por favor verifique sua conexao", ex);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
     }
-}  
+}
 
 
 
