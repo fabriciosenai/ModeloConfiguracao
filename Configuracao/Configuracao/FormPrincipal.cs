@@ -35,9 +35,16 @@ namespace Configuracao
             {
                 frm.ShowDialog();
             }
-        }  
+        }
 
-       }
+        private void gruposDedUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormBuscarGrupoUsuario frm = new FormBuscarGrupoUsuario())
+            {
+                frm.ShowDialog();
+            }
+        }
+    }
     }
 
 

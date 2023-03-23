@@ -44,7 +44,7 @@ namespace BLL
         private void ValidarDados(GrupoUsuario _grupousuario)
 
         {
-            if (_grupousuario.NomeGrupo.Length > 50)
+            if (_grupousuario.NomeGrupo.Length <= 3)
             {
                 throw new Exception("A senha deve ter menos de 50 caracteres.");
             }

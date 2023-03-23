@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace DAL
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandText = @"INSERT INTO GrupoUsuario(NomeGrupo)      
-                                  VALUE(@NomeGrupo )";
+                                  VALUES(@NomeGrupo )";
 
                 cmd.Parameters.AddWithValue("@NomeGrupo", _grupousuario.NomeGrupo);
 
@@ -106,20 +107,17 @@ namespace DAL
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "SELECT Id, nomegrupo";
+                cmd.CommandText = "SELECT Id, NomeGrupo FROM GrupoUsuario";
                 cmd.CommandType = System.Data.CommandType.Text;
-
                 cn.Open();
+
                 using (SqlDataReader rd = cmd.ExecuteReader())
                 {
                     while (rd.Read())
                     {
                         grupousuario = new GrupoUsuario();
                         grupousuario.IdGrupo = Convert.ToInt32(rd["Id"]);
-                        grupousuario.NomeGrupo = rd["nomegrupo "].ToString();
-
-
-
+                        grupousuario.NomeGrupo = rd["NomeGrupo"].ToString();
                         grupousuarios.Add(grupousuario);
                     }
                 }
@@ -187,6 +185,47 @@ namespace DAL
                 cmd.CommandText = "SELECT Id,nomegrupo";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", _id);
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+
+
+                {
+                    while (rd.Read())
+                    {
+
+                        grupousuario.IdGrupo = Convert.ToInt32(rd["Id"]);
+                        grupousuario.NomeGrupo = rd["nomegrupo "].ToString();
+                        grupousuarios.Add(grupousuario);
+                    }
+                }
+
+                return grupousuarios;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("O correu um erro na tentativa de inserir um usuário. por favor verifique sua conexão", ex);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        internal List<GrupoUsuario> BuscarPorIdUsuario(int _id)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            List<GrupoUsuario> grupousuarios = new List<GrupoUsuario>();
+            GrupoUsuario grupousuario = new GrupoUsuario();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"SELECT GrupoUsuario.Id, GrupoUsuario.NomeGrupo FROM GrupoUsuario
+                    INNER JOIN UsuarioGrupoUsuario ON GrupoUsuario.Id = UsuarioGrupoUsuario.IdGrupoUsuario
+                    WHERE UsuarioGrupoUsuario.IdGrupoUsuario = @IdUsuario";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@IdUsuario", _id);
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
 

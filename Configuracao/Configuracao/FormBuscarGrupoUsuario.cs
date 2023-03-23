@@ -26,7 +26,7 @@ namespace Configuracao
 
         private void buttonBuscar_Click(object sender, EventArgs e)
         {
-            grupoUsuarioBindingSource.DataSource = new UsuarioBLL().BuscarTodos();
+            grupoUsuarioBindingSource.DataSource = new GrupoUsuarioBLL().BuscarPorTodos();
         }
 
         private void buttonExcluir_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace Configuracao
 
         private void buttonAdicionar_Click(object sender, EventArgs e)
         {
-            using (FormBuscarGrupoUsuario frm = new FormBuscarGrupoUsuario())
+            using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario())
             {
                 frm.ShowDialog();
             }
@@ -58,7 +58,14 @@ namespace Configuracao
 
         private void buttonAlterar_Click(object sender, EventArgs e)
         {
+            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
 
+
+            using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario(id))
+            {
+                frm.ShowDialog();
+            }
+          //  Buscar_Click(null, null);
         }
     }
 }
