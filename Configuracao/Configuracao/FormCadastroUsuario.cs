@@ -22,22 +22,30 @@ namespace Configuracao
             Id = _id;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void buttonSalvar_Click(object sender, EventArgs e)
         {
-            UsuarioBLL usuarioBLL = new UsuarioBLL();
-            usuarioBindingSource.EndEdit();
 
-            if (Id == 0)
-                usuarioBLL.Inserir((Usuario)usuarioBindingSource.Current);
-            else
-                usuarioBLL.Alterar((Usuario)usuarioBindingSource.Current);
-            MessageBox.Show("Registro salvo com sucesso");
-            Close();
+            try
+            {
+                UsuarioBLL usuarioBLL = new UsuarioBLL();
+                usuarioBindingSource.EndEdit();
+                if (Id == 0)
+                {
+                    usuarioBLL.Inserir((Usuario)usuarioBindingSource.Current, textBoxConfirmSenha.Text);
+                }
+                else
+                {
+                    usuarioBLL.Alterar((Usuario)usuarioBindingSource.Current, textBoxConfirmSenha.Text);
+                }
+                MessageBox.Show("Registro salvo com sucesso");
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
 

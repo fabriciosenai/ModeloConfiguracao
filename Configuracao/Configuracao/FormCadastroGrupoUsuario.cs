@@ -34,9 +34,13 @@ namespace Configuracao
             grupoUsuarioBindingSource.EndEdit();
 
             if (Id == 0)
+            {
                 grupoUsuarioBLL.Inserir((GrupoUsuario)grupoUsuarioBindingSource.Current);
+            }
             else
+            {
                 grupoUsuarioBLL.Alterar((GrupoUsuario)grupoUsuarioBindingSource.Current);
+            }
             MessageBox.Show("Registro salvo com sucesso");
             Close();
         }

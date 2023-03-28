@@ -36,16 +36,16 @@
             System.Windows.Forms.Label senhaLabel;
             System.Windows.Forms.Label label1;
             this.nomeTextBox = new System.Windows.Forms.TextBox();
+            this.usuarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cPFTextBox = new System.Windows.Forms.TextBox();
             this.emailTextBox = new System.Windows.Forms.TextBox();
             this.nomeUsuarioTextBox = new System.Windows.Forms.TextBox();
             this.senhaTextBox = new System.Windows.Forms.TextBox();
             this.ativoCheckBox = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxConfirmSenha = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonSalvar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
-            this.usuarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
             nomeLabel = new System.Windows.Forms.Label();
             cPFLabel = new System.Windows.Forms.Label();
             emailLabel = new System.Windows.Forms.Label();
@@ -108,7 +108,6 @@
             label1.Size = new System.Drawing.Size(102, 16);
             label1.TabIndex = 13;
             label1.Text = "Confirma Senha";
-            label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // nomeTextBox
             // 
@@ -117,6 +116,10 @@
             this.nomeTextBox.Name = "nomeTextBox";
             this.nomeTextBox.Size = new System.Drawing.Size(291, 22);
             this.nomeTextBox.TabIndex = 2;
+            // 
+            // usuarioBindingSource
+            // 
+            this.usuarioBindingSource.DataSource = typeof(Models.Usuario);
             // 
             // cPFTextBox
             // 
@@ -161,13 +164,13 @@
             this.ativoCheckBox.Text = "Ativo";
             this.ativoCheckBox.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // textBoxConfirmSenha
             // 
-            this.textBox1.Location = new System.Drawing.Point(339, 252);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(123, 22);
-            this.textBox1.TabIndex = 12;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBoxConfirmSenha.Location = new System.Drawing.Point(339, 252);
+            this.textBoxConfirmSenha.Name = "textBoxConfirmSenha";
+            this.textBoxConfirmSenha.Size = new System.Drawing.Size(123, 22);
+            this.textBoxConfirmSenha.TabIndex = 12;
+            this.textBoxConfirmSenha.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label2
             // 
@@ -200,10 +203,6 @@
             this.buttonCancelar.UseVisualStyleBackColor = true;
             this.buttonCancelar.Click += new System.EventHandler(this.buttonCancelar_Click);
             // 
-            // usuarioBindingSource
-            // 
-            this.usuarioBindingSource.DataSource = typeof(Models.Usuario);
-            // 
             // FormCadastroUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -213,7 +212,7 @@
             this.Controls.Add(this.buttonSalvar);
             this.Controls.Add(this.label2);
             this.Controls.Add(label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxConfirmSenha);
             this.Controls.Add(this.ativoCheckBox);
             this.Controls.Add(senhaLabel);
             this.Controls.Add(this.senhaTextBox);
@@ -249,7 +248,7 @@
         private System.Windows.Forms.TextBox nomeUsuarioTextBox;
         private System.Windows.Forms.TextBox senhaTextBox;
         private System.Windows.Forms.CheckBox ativoCheckBox;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxConfirmSenha;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonSalvar;
         private System.Windows.Forms.Button buttonCancelar;

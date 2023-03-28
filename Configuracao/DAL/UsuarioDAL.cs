@@ -48,7 +48,7 @@ namespace DAL
                 try
                 {
                     SqlCommand cmd = cn.CreateCommand();
-                    cmd.CommandText = "update Usuario set Nome = @nome,NomeUsuario = @NomeUsuario,Email = @Email,Cpf =@Cpf,Senha = @Senha,Ativo = @Ativo WHERE id = @ID";
+                    cmd.CommandText = "update Usuario set Nome = @Nome,NomeUsuario = @NomeUsuario,Email = @Email,Cpf =@CPF,Senha = @Senha,Ativo = @Ativo WHERE Id = @Id";
                     cmd.CommandType = System.Data.CommandType.Text;
 
                     cmd.Parameters.AddWithValue("@Id", _usuario.Id);
@@ -61,8 +61,6 @@ namespace DAL
                     cmd.Connection = cn;
                     cn.Open();
                     cmd.ExecuteNonQuery();
-
-
                 }
                 catch (Exception ex)
                 {
@@ -141,10 +139,9 @@ namespace DAL
                     cn.Close();
                 }
             }
-            public List<Usuario> BuscarPorCPF(string _cpf)
+            public Usuario BuscarPorCPF(string _cpf)
             {
                 SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-                List<Usuario> usuarios = new List<Usuario>();
                 Usuario usuario = new Usuario();
 
                 try
@@ -169,12 +166,10 @@ namespace DAL
                             usuario.Senha = rd["Senha"].ToString();
                             usuario.GrupoUsuarios = new GrupoUsuarioDAL().BuscarPorIdUsuario(usuario.Id);
 
-                            usuarios.Add(usuario);
-
                         }
                     }
 
-                    return usuarios;
+                    return usuario;
                 }
 
                 catch (Exception ex)
@@ -187,17 +182,51 @@ namespace DAL
                 }
             }
 
-            public List<Usuario> BuscarPorNome(string _nome)
-            {
-                throw new NotImplementedException("Apagar essa linha e implementar o método: BuscarPorNome na UsuarioDAL");
-            }
-
-
-
-            public List<Usuario> BuscarPorNomeUsuario(string _nomeUsuario)
+            public Usuario BuscarPorNome(string _nome)
             {
                 SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-                List<Usuario> usuarios = new List<Usuario>();
+                Usuario usuario = new Usuario(); ;
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandText = "SELECT Id, Nome, NomeUsuario, Email,CPF,Ativo,Senha FROM Usuario WHERE Nome = @nome";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Parameters.AddWithValue("@nome",_nome);
+
+                    cn.Open();
+                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    {
+                        if (rd.Read())
+                        {
+                            usuario = new Usuario();
+                            usuario.Id = Convert.ToInt32(rd["Id"]);
+                            usuario.Nome = rd["Nome"].ToString();
+                            usuario.NomeUsuario = rd["NomeUsuario"].ToString();
+                            usuario.Email = rd["Email"].ToString();
+                            usuario.CPF = rd["Cpf"].ToString();
+                            usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
+                            usuario.Senha = rd["Senha"].ToString();
+                            usuario.GrupoUsuarios = new GrupoUsuarioDAL().BuscarPorIdUsuario(usuario.Id);
+                        }
+                    }
+                    return usuario;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Ocorreu um erro na tentetiva de buscar dos dados. Por favor verifique sua conexao", ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+             }
+
+
+
+            public Usuario BuscarPorNomeUsuario(string _nomeUsuario)
+            {
+                SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
                 Usuario usuario = new Usuario();
 
 
@@ -205,13 +234,13 @@ namespace DAL
                 {
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = cn;
-                    cmd.CommandText = "SELECT Id,Nome,NomeUsuario,Email,CPF,Ativo FROM Usuario WHERE NomeUsuario LIKE = @nomeusuario";
+                    cmd.CommandText = "SELECT Id,Nome,NomeUsuario,Email,CPF,Ativo,Senha FROM Usuario WHERE NomeUsuario LIKE @nomeusuario";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@nomeusuario", "%" + _nomeUsuario + "%");
                     cn.Open();
                     using (SqlDataReader rd = cmd.ExecuteReader())
                     {
-                        while (rd.Read())
+                        if (rd.Read())
                         {
                             usuario = new Usuario();
                             usuario.Id = Convert.ToInt32(rd["Id"]);
@@ -223,12 +252,10 @@ namespace DAL
                             usuario.Senha = rd["Senha"].ToString();
                             usuario.GrupoUsuarios = new GrupoUsuarioDAL().BuscarPorIdUsuario(usuario.Id);
 
-                            usuarios.Add(usuario);
-
                         }
                     }
 
-                    return usuarios;
+                    return usuario;
                 }
 
                 catch (Exception ex)
@@ -240,9 +267,8 @@ namespace DAL
                     cn.Close();
                 }
             }
-            public List<Usuario> BuscarPorId(int _id)
+            public Usuario BuscarPorId(int _id)
             {
-                List<Usuario> usuarios = new List<Usuario>();
                 Usuario usuario = new Usuario();
                 SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
 
@@ -270,12 +296,10 @@ namespace DAL
                             usuario.Senha = rd["Senha"].ToString();
                             usuario.GrupoUsuarios = new GrupoUsuarioDAL().BuscarPorIdUsuario(usuario.Id);
 
-                            usuarios.Add(usuario);
-
                         }
                     }
 
-                    return usuarios;
+                    return usuario;
                 }
                 catch (Exception ex)
                 {
@@ -301,7 +325,7 @@ namespace DAL
 
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@IdUsuario", _idUsuario);
-                    cmd.Parameters.AddWithValue("@Idpermissao", _idPermissao);
+                    cmd.Parameters.AddWithValue("@IdPermissao", _idPermissao);
 
                     cn.Open();
                     using (SqlDataReader rd = cmd.ExecuteReader())

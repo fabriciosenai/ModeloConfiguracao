@@ -58,14 +58,21 @@ namespace Configuracao
 
         private void buttonAlterar_Click(object sender, EventArgs e)
         {
-            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
-
-
-            using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario(id))
+            if(grupoUsuarioBindingSource.Count <= 0)
             {
-                frm.ShowDialog();
+                MessageBox.Show("Selecionar uma opção");
+                return;
             }
-          //  Buscar_Click(null, null);
+            else
+            {
+                int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).IdGrupo;
+                using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario(id))
+                {
+                    frm.ShowDialog();
+                }
+                buttonBuscar_Click(null, null);
+            }
+            
         }
     }
 }

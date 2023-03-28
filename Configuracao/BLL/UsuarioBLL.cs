@@ -10,18 +10,21 @@ namespace BLL
 {
     public class UsuarioBLL
     {
-        public void Inserir(Usuario _usuario)
+        public void Inserir(Usuario _usuario,string _confirmarSenha)
         {
-            if (_usuario.Senha.Length <= 3)
-                throw new Exception("A senha deve ter mais de 3 caracteres.");
+            ValidarDados(_usuario, _confirmarSenha);
             UsuarioDAL usuarioDAL = new UsuarioDAL();
             usuarioDAL.Inserir(_usuario);
 
 
         }
-        private void ValidarDados(Usuario _usuario)
+        private void ValidarDados(Usuario _usuario, string _confirmarSenha)
 
         {
+            if(_usuario.Senha != _confirmarSenha)
+            {
+                throw new Exception("Os campos de senha devem ser iguais.");
+            }
             if (_usuario.Senha.Length <= 3)
 
                 throw new Exception("A senha deve ter mais de 3 caracteres.");
@@ -29,14 +32,11 @@ namespace BLL
             if (_usuario.Senha.Length <= 2)
 
                 throw new Exception("A nome  deve ter mais de 2 caracteres.");
-
-
-            UsuarioDAL usuarioDAL = new UsuarioDAL();
-            usuarioDAL.Inserir(_usuario);
         }
-        public void Alterar(Usuario _usuario)
+        public void Alterar(Usuario _usuario, string _confirmaSenha)
         {
-
+            //ValidarPermissao(3);
+            ValidarDados(_usuario, _confirmaSenha);
             UsuarioDAL usuarioDAL = new UsuarioDAL();
             usuarioDAL.Alterar(_usuario);
         }
@@ -50,19 +50,19 @@ namespace BLL
         {
             return new UsuarioDAL().BuscarPorTodos();
         }
-        public List<Usuario> BuscarPorId(int _id)
+        public Usuario BuscarPorId(int _id)
         {
             return new UsuarioDAL().BuscarPorId(_id);
         }
-        public List<Usuario> BuscarPorCPF(string _cpf)
+        public Usuario BuscarPorCPF(string _cpf)
         {
             return new UsuarioDAL().BuscarPorCPF(_cpf);
         }
-        public List<Usuario> BuscarPorNome(string _nome)
+        public Usuario BuscarPorNome(string _nome)
         {
             return new UsuarioDAL().BuscarPorNome(_nome);
         }
-        public List<Usuario> BuscarPorNomeUsuario(string _nomeUsuario)
+        public Usuario BuscarPorNomeUsuario(string _nomeUsuario)
 
         {
             return new UsuarioDAL().BuscarPorNomeUsuario(_nomeUsuario);
@@ -79,7 +79,18 @@ namespace BLL
                 throw new Exception("Você não tem permissão dr realizar essa operação. Procure o administrador do sistema.");
         }
 
-
+        public void Altenticar(string _nomeUsuario, string _Senha)
+        {
+            Usuario usuario = new UsuarioDAL().BuscarPorNomeUsuario(_nomeUsuario);
+            if(_Senha == usuario.Senha && usuario.Ativo)
+            {
+                Constantes.IdUsuarioLogado = usuario.Id;
+            }
+            else
+            {
+                throw new Exception("Usuario ou senha inválidos");
+            }
+        }
     }
 
     }

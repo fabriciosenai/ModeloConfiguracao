@@ -18,7 +18,7 @@ namespace Configuracao
         public FormPrincipal()
         {
             InitializeComponent();
-            Usuario usuario = new Usuario();
+            /*Usuario usuario = new Usuario();
             usuario.Nome = "Fabricio";
             usuario.NomeUsuario = "Teste";
             usuario.Ativo = true;
@@ -26,7 +26,7 @@ namespace Configuracao
             usuario.Senha = "dferdf";
             usuario.Email = "contato@gmail.com";
 
-            new UsuarioBLL().Inserir(usuario);
+            new UsuarioBLL().Inserir(usuario);*/
         }
 
         private void usuarioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,6 +42,25 @@ namespace Configuracao
             using (FormBuscarGrupoUsuario frm = new FormBuscarGrupoUsuario())
             {
                 frm.ShowDialog();
+            }
+        }
+
+        private void FormPrincipal_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                using (Formlogin frm = new Formlogin())
+                {
+                    frm.ShowDialog();
+                    if (!frm.Logou)
+                    {
+                        Application.Exit();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

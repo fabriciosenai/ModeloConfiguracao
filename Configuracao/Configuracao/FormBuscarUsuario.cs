@@ -56,14 +56,20 @@ namespace Configuracao
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int id = ((Usuario)usuarioBindingSource.Current).Id;
-
-
-            using (FormCadastroUsuario frm = new FormCadastroUsuario(id))
+            if (usuarioBindingSource.Count <= 0)
             {
-                frm.ShowDialog();
+                MessageBox.Show("Selecione uma opção para alterar");
+                return;
             }
-            Buscar_Click(null, null);
+            else
+            { 
+                int id = ((Usuario)usuarioBindingSource.Current).Id;
+                using (FormCadastroUsuario frm = new FormCadastroUsuario(id))
+                {
+                    frm.ShowDialog();
+                }
+                Buscar_Click(null, null);
+            }
         }
     }
 }
